@@ -1,2 +1,2 @@
-annotator_demonstrator
+Annotator Demonstrator
 ======================
