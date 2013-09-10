@@ -1,0 +1,49 @@
+{% extends "annotations/base.html" %}
+
+{% block title %}Sessions{% endblock %}
+
+{% block pagestyling %}
+#annotations {
+	width: 100%;
+	margin: 0em;
+}
+.leftitem {
+	float: left;
+	width: 30%;
+}
+.rightitem {
+	float: right;
+	width: 30%;
+}
+.annotation {
+	width: 40%;
+}
+{% endblock %}
+
+{% block content %}
+{% if session %}
+<h1><span class="session_title">{% if session.title %}{{session.title}}{% else %}Untitled session #{{ session.id }}{% endif %}</span></h1>
+<h2>Session created by {{ session.creator }}</h2>
+<h3>Playback:</h3>
+<div id="annotations">
+{% for annotation in annotations %}
+	<div class="annotation_row">
+		<div class="leftitem">{{ annotation.leftitem }}</div>
+		<div class="annotation">{% if annotation.annotation %}
+			<div class="annotation_text">{{ annotation.annotation }}</div>
+{% else %}
+		<div class="annotation"></div>
+{% endif %}
+			<div class="annotation_author">By {{annotation.creator}} on {{annotation.datestamp}}</div>
+		</div>
+		<div class="rightitem">{{ annotation.leftitem }}</div>
+	</div>
+{% endfor %}
+</div>
+{% else %}
+<h2>No sessions recorded.</h2>
+{% endif %}
+
+
+<p>TODO: Add form to create new sessions </p>
+{% endblock %}
