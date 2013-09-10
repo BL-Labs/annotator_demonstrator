@@ -3,7 +3,7 @@
 {% block title %}Sessions{% endblock %}
 
 {% block content %}
-{% if sessionlist %}
+{% if session_list %}
 <ul>
 {% for session in session_list %}
   <li><a href="session/{{session.id}}">{{ session.description }}</a></li>
