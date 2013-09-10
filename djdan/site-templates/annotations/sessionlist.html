@@ -6,11 +6,8 @@
 {% if session_list %}
 <ul>
 {% for session in session_list %}
-  <li><a href="session/{{session.id}}"><span class="session_title">{{session.title}}</span>
-  {% if session.description %}
-	<div class="session_description">{{ session.description }}</div>
-  {% endif %}
-</a></li>
+  <li><a href="session/{{session.id}}"><span class="session_title">{{session.title}}</span>{% if session.description %}
+       <div class="session_description">{{ session.description }}</div>{% endif %}</a></li>
 {% endfor %}
 </ul>
 {% else %}
