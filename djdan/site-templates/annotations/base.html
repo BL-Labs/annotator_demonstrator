@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% block title %}DJ annotator{% endblock %}</title>
+	<link rel="stylesheet" href="/static/basestyle.css" />
+        {% block pagestyling %}{% endblock %}
+	<script src=""></script>
+</head>
+
+<body>
+	<div id="content">
+	{% block content %}{% endblock %}
+	</div>
+	<script>
+	{% block onceloadedscripts %}{% endblock %}
+        </script>
+</body>
+</html>
