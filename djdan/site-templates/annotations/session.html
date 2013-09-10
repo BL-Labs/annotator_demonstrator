@@ -12,8 +12,8 @@
 <h3>Playback:</h3>
 <div id="annotations">
 {% for annotation in annotations %}
-	<div class="three columns">
-		<div class="three columns leftitem">{{ annotation.leftitem }}</div>
+	<div class="annotation container">
+		<div class="three columns alpha">{{ annotation.leftitem }}</div>
 		<div class="four columns annotation">{% if annotation.annotation %}
 			<div class="annotation_text">{{ annotation.annotation }}</div>
 {% else %}
@@ -21,7 +21,7 @@
 {% endif %}
 			<div class="annotation_author">By {{annotation.creator}} on {{annotation.datestamp}}</div>
 		</div>
-		<div class="three columns rightitem">{{ annotation.leftitem }}</div>
+		<div class="three columns omega">{{ annotation.leftitem }}</div>
 	</div>
 {% endfor %}
 </div>
