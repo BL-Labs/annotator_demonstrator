@@ -3,21 +3,6 @@
 {% block title %}Sessions{% endblock %}
 
 {% block pagestyling %}
-#annotations {
-	width: 100%;
-	margin: 0em;
-}
-.leftitem {
-	float: left;
-	width: 30%;
-}
-.rightitem {
-	float: right;
-	width: 30%;
-}
-.annotation {
-	width: 40%;
-}
 {% endblock %}
 
 {% block content %}
@@ -27,7 +12,7 @@
 <h3>Playback:</h3>
 <div id="annotations">
 {% for annotation in annotations %}
-	<div class="annotation_row">
+	<div class="three columns">
 		<div class="leftitem">{{ annotation.leftitem }}</div>
 		<div class="annotation">{% if annotation.annotation %}
 			<div class="annotation_text">{{ annotation.annotation }}</div>
