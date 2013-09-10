@@ -3,6 +3,15 @@
 {% block title %}Sessions{% endblock %}
 
 {% block pagestyling %}
+#annotations {
+    width: 100%;
+}
+.annotation_text {
+	margin: 2em 1em;
+}
+#annotations div.container:nth-child(2n+1) {
+    background: #454545;
+}
 {% endblock %}
 
 {% block content %}
@@ -13,15 +22,15 @@
 <div id="annotations">
 {% for annotation in annotations %}
 	<div class="annotation container">
-		<div class="three columns alpha">{{ annotation.leftitem }}</div>
-		<div class="four columns annotation">{% if annotation.annotation %}
+		<div class="five columns alpha">{{ annotation.leftitem }}</div>
+		<div class="six columns">{% if annotation.annotation %}
 			<div class="annotation_text">{{ annotation.annotation }}</div>
 {% else %}
-		<div class="annotation"></div>
+		<div class="annotation_silent">&nbsp;</div>
 {% endif %}
 			<div class="annotation_author">By {{annotation.creator}} on {{annotation.datestamp}}</div>
 		</div>
-		<div class="three columns omega">{{ annotation.leftitem }}</div>
+		<div class="five columns omega">{{ annotation.leftitem }}</div>
 	</div>
 {% endfor %}
 </div>
