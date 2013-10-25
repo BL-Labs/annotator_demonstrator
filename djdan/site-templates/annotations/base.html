@@ -41,7 +41,7 @@
 <body>
 {% if user.is_authenticated %}
 <div id="header">
-Welcome <strong>{{ user }}</strong> - Your <a href="{% url 'collectionlist' %}">collections</a>, <a href="{% url 'sessionlist' %}">sessions</a>, and <a href="{% url 'itemlist' %}">items</a> ---- click here to <a href="{% url 'logout_view'%}">logout</a>
+Welcome <strong>{{ user }}</strong> - Your <a href="{% url 'collectionlist' %}">collections</a>, <a href="{% url 'sessionlist' %}">sessions</a>, and <a href="{% url 'itemlist' %}">items</a> ---- click here to <a href="{% url 'logout'%}">logout</a>
 </div>
 {% else %}
 <div id="header">
