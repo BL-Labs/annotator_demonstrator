@@ -1,0 +1,77 @@
+{% extends "annotations/base.html" %}
+{% load collectionhelpers %}
+{% block title %}
+Item: {{ item }}
+{% endblock %}
+
+{% block pagestyling %}
+body {
+    height: 100%;
+}
+#annotations {
+    width: 100%;
+}
+.annotation_text {
+	margin: 2em 1em;
+}
+#annotations div.container:nth-child(2n+1) {
+    background: #454545;
+}
+#previewcollectionitems {
+    position: relative;
+}
+
+#previewcollectionitems div {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;  
+}
+#collectiondisplay {
+  position: relative;
+  bottom: 0px;
+  width: 800px;
+  height: 200px;
+}
+#collectiondisplay .collection {
+  position: absolute;
+  text-align: center;
+  width: 4px;
+}
+.itemblob {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+}
+.itemstick {
+  position: absolute;
+  width: 2px;
+  height: 26px;
+  left: 1px;
+  background: #eee;
+}
+{% endblock %}
+
+{% block content %}
+<h1>Item: {{ item }}</h1>
+<div class="item">
+{% include "annotations/item.html" %}
+</div>
+<form method="post" action="{%%}">
+{% csrf_token %}
+<p><input type="text" value="{{ item.payload }}" name="payload"/></p>
+<p><label for="itemtype">Type of resource</label><select id="itemtype" name="itemtype" selected="{{ item.itemtype }}">
+<option value="img">Image</option>
+<option value="txt">Text Snippet</option>
+<option value="img">Audio</option>
+<option value="vid">YouTube</option>
+</select></p>
+<p><label for="tag">Label</label><input name="tag" value="{{ item.tag }}"/></p>
+<p><label for="src">Citation to text?</label><input name="src" value="{{ item.src }}/></p>
+<p><input type="submit" value="Update Item"/></p>
+<input type="hidden" itemid="{{ item.id }}" />
+</form>
+<hr/>
+{% include "annotations/add_item_form.html" %}
+{% endblock %}
