@@ -160,17 +160,48 @@ def itemlist(request):
   if not request.user.is_authenticated():
     return redirect('login')
   items = Item.objects.filter(creator=request.user)
+  collections = Collection.objects.filter(creator=request.user)
   if request.method == "GET":
     template = loader.get_template("annotations/itemlist.html")
     context = RequestContext( request, {
         'items': items,
+        'collections': collections,
               })
     return HttpResponse(template.render(context))
 
-  
-
 def item(request, item_id):
-  pass
+  try:
+    item = Item.objects.get(pk=item_id)
+  except Item.DoesNotExist:
+    raise Http404
+  if request.method == "GET":
+    template = loader.get_template("annotations/itemview.html")
+    allcollections = Collection.objects.filter(creator=request.user)
+    collections = Collection.objects.filter(creator=request.user, item=item)
+    context = RequestContext( request, {
+        'collections': collections,
+        'allcollections': allcollections,
+        'item': item,
+              })
+    return HttpResponse(template.render(context))
+  if request.method == "POST":
+    if not request.user.is_authenticated():
+      return redirect('login')
+    itemid = request.POST['itemid']
+    tag = request.POST['tag']
+    payload = request.POST['payload']
+    itemtype = request.POST['itemtype']
+    src = request.POST['src']
+    try:
+      updateitem = Item.objects.get(pk=int(itemid))
+      updateitem.tag = tag
+      updateitem.itemtype = itemtype
+      updateitem.payload = payload
+      updateitem.src = src
+      updateitem.save()
+      return redirect("item", item_id=updateitem)
+    except Item.NotFound:
+      raise Http404
 
 def annotationlist(request):
   pass
