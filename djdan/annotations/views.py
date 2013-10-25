@@ -190,16 +190,13 @@ def item(request, item_id):
     payload = request.POST['payload']
     itemtype = request.POST['itemtype']
     src = request.POST['src']
-    try:
-      updateitem = Item.objects.get(pk=int(itemid))
-      updateitem.tag = tag
-      updateitem.itemtype = itemtype
-      updateitem.payload = payload
-      updateitem.src = src
-      updateitem.save()
-      return redirect("item", item_id=updateitem)
-    except Item.NotFound:
-      raise Http404
+    updateitem = Item.objects.get(pk=int(itemid))
+    updateitem.tag = tag
+    updateitem.itemtype = itemtype
+    updateitem.payload = payload
+    updateitem.src = src
+    updateitem.save()
+    return redirect("item", item_id=updateitem.id)
 
 def annotationlist(request):
   pass
