@@ -177,9 +177,7 @@ def item(request, item_id):
   if request.method == "GET":
     template = loader.get_template("annotations/itemview.html")
     allcollections = Collection.objects.filter(creator=request.user)
-    collections = Collection.objects.filter(creator=request.user, item=item)
     context = RequestContext( request, {
-        'collections': collections,
         'allcollections': allcollections,
         'item': item,
               })

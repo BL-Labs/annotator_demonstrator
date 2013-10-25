@@ -58,6 +58,7 @@ body {
 <div class="item">
 {% include "annotations/item.html" %}
 </div>
+<hr/>
 <form method="post" action="{% url 'item' item_id=item.id %}">
 {% csrf_token %}
 <p><input type="text" value="{{ item.payload }}" name="payload"/></p>
@@ -72,6 +73,4 @@ body {
 <p><input type="submit" value="Update Item"/></p>
 <input type="hidden" itemid="{{ item.id }}" />
 </form>
-<hr/>
-{% include "annotations/add_item_form.html" %}
 {% endblock %}
