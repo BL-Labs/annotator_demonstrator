@@ -1,5 +1,20 @@
-<html><body>
-<h1>Front Page</h1>
-<h2><a href="session">Sessions</a></h2>
-<h2><a href="annotation">Annotations</a></h2>
-</body></html>
+{% extends "annotations/base.html" %}
+
+{% block title %}"Mixing the Library": The Disc Jockey and the Digital Collection{% endblock %}
+
+{% block pagestyling %}
+#annotations {
+    width: 100%;
+}
+.annotation_text {
+	margin: 2em 1em;
+}
+#annotations div.container:nth-child(2n+1) {
+    background: #454545;
+}
+{% endblock %}
+
+{% block content %}
+<h1>"Mixing the Library": The Disc Jockey and the Digital Collection</h1>
+
+{% endblock %}

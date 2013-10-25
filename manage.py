@@ -2,7 +2,7 @@
 import os
 import sys
 
-path = '/home/ben/djdan/djdan'
+path = os.path.abspath('djdan')
 if path not in sys.path:
     sys.path.append(path)
 
