@@ -157,7 +157,17 @@ def collectionlist(request):
     return redirect('collections', collection_id=col.id)
 
 def itemlist(request):
-  pass
+  if not request.user.is_authenticated():
+    return redirect('login')
+  items = Item.objects.filter(creator=request.user)
+  if request.method == "GET":
+    template = loader.get_template("annotations/itemlist.html")
+    context = RequestContext( request, {
+        'items': items,
+              })
+    return HttpResponse(template.render(context))
+
+  
 
 def item(request, item_id):
   pass
