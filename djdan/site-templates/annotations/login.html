@@ -1,0 +1,34 @@
+{% extends "annotations/base.html" %}
+{% load collectionhelpers %}
+{% block title %}
+Mixing the Library: Login
+{% endblock %}
+
+{% block pagestyling %}
+body {
+    height: 100%;
+}
+{% endblock %}
+
+{% block content %}
+{% if message %}
+<p>{{ message }}
+{% endif %}
+
+<form method="post" action="{% url 'loginview' %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td><label for="username">Login name:</label></td>
+    <td><input type="text" name="username" placeholder="Your Username"/></td>
+</tr>
+<tr>
+    <td><label for="password">Password:</label></td>
+    <td><input type="password" name="password" placeholder="***************"/></td>
+</tr>
+</table>
+
+<input type="submit" value="login" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+{% endblock %}

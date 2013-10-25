@@ -1,0 +1,97 @@
+{% extends "annotations/base.html" %}
+{% load collectionhelpers %}
+{% block title %}
+{% if collection.tag %}
+"{{collection.tag }}" - Collection View
+{% else %}
+Collections and unassigned items
+{% endif %}
+{% endblock %}
+
+{% block pagestyling %}
+body {
+    height: 100%;
+}
+#annotations {
+    width: 100%;
+}
+.annotation_text {
+	margin: 2em 1em;
+}
+#annotations div.container:nth-child(2n+1) {
+    background: #454545;
+}
+#previewcollectionitems {
+    position: relative;
+}
+
+#previewcollectionitems div {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;  
+}
+#collectiondisplay {
+  position: relative;
+  bottom: 0px;
+  width: 800px;
+  height: 200px;
+}
+#collectiondisplay .collection {
+  position: absolute;
+  text-align: center;
+  width: 4px;
+}
+.itemblob {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+}
+.itemstick {
+  position: absolute;
+  width: 2px;
+  height: 26px;
+  left: 1px;
+  background: #eee;
+}
+{% endblock %}
+
+{% block content %}
+<h1> Your Collections:</h1>
+<h2> Collections</h2>
+{% if collections %}
+<div id="collectionitems">
+{% for col in collections %}
+  {% include "annotations/collection_small.html" %}
+{% endfor %}
+</div>
+{% else %}
+<h3> No collections found </h3>
+{% endif %}
+{% if unassigned %}
+<h2> Unassigned Items:</h2>
+<ul>
+{% for item in unassigned %}
+<li><a href="{% url "item" item_id=item.id  %}">{{ item }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+<div id="newcollection">
+<form method="post" action="{% url 'collectionlist' %}">
+{% csrf_token %}
+<p>Create new collection</p>
+<table>
+<tr>
+	<td><label for="tag">Collection label:</label></td>
+	<td><input type="text" placeholder="...Optional..." name="tag"/></td>
+</tr>
+<tr>
+    <td><label for="position">Position:</label></td>
+    <td><input type="text" name="location" placeholder="eg '7'"/></td>
+</tr>
+</table>
+<input type="submit" value="Create" />
+</form>
+</div>
+{% endblock %}

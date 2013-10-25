@@ -1,0 +1,84 @@
+{% extends "annotations/base.html" %}
+{% load collectionhelpers %}
+{% block title %}
+{% if collection.tag %}
+"{{collection.tag }}" - Collection View
+{% else %}
+Collection View
+{% endif %}
+{% endblock %}
+
+{% block pagestyling %}
+body {
+    height: 100%;
+}
+#annotations {
+    width: 100%;
+}
+.annotation_text {
+	margin: 2em 1em;
+}
+#annotations div.container:nth-child(2n+1) {
+    background: #454545;
+}
+#previewcollectionitems {
+    position: relative;
+}
+
+#previewcollectionitems div {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;  
+}
+#collectiondisplay {
+  position: relative;
+  bottom: 0px;
+  width: 800px;
+  height: 200px;
+}
+#collectiondisplay .collection {
+  position: absolute;
+  text-align: center;
+  width: 4px;
+}
+.itemblob {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+}
+.itemstick {
+  position: absolute;
+  width: 2px;
+  height: 26px;
+  left: 1px;
+  background: #eee;
+}
+{% endblock %}
+
+{% block content %}
+<h1>Collection {{ collection.tag }}</h1>
+{% if items %}
+<div id="collectionitems">
+{% include "annotations/collection_normal.html" %}
+</div>
+{% else %}
+<p>No items added yet</p>
+{% endif %}
+{% include "annotations/add_item_form.html" %}
+{% if unassigned %}
+<h3>or add a previously added item:</h3>
+<form method="post" action="{% url 'collections' collection_id=collection.id %}">
+{% csrf_token %}
+<input type="hidden" name="unassigned" value="assignment"/>
+<select name="unassigneditem">
+{% for un_item in unassigned %}
+<option value="{{ un_item.id }}">{{un_item}}</option>
+{% endfor %}
+</select>
+<p><input type="text" name="tag" placeholder="Give it a unique label in this collection?"/></p>
+<input type="submit" value="Assign item to this collection"/> 
+</form>
+{% endif %}
+{% endblock %}

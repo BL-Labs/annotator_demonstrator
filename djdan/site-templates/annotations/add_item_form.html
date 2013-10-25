@@ -1,0 +1,23 @@
+{% if col %}
+<h3> Add a new item to this collection</h3>
+<form method="post" action="{% url 'collections' collection_id=col.id %}">
+{% elif collection %}
+<h3> Add a new item to this collection</h3>
+<form method="post" action="{% url 'collections' collection_id=collection.id %}">
+{% else %}
+<h3> Add a new item</h3>
+<form method="post" action="{% url 'itemlist' %}">
+{% endif %}
+{% csrf_token %}
+<p><input type="text" placeholder="Paste URL here" name="payload"/></p>
+<p><label for="itemtype">Type of resource</label><select id="itemtype" name="itemtype">
+<option value="img">Image</option>
+<option value="txt">Text Snippet</option>
+<option value="img">Audio</option>
+<option value="vid">YouTube</option>
+</select></p>
+<p><label for="tag">Label</label><input name="tag" placeholder="Optional"/></p>
+<p><label for="src">Citation to text?</label><input name="src" placeholder="Optional"/></p>
+<input type="hidden" name="unassigned" value="no"/>
+<p><input type="submit" value="Add Item"/></p>
+</form>

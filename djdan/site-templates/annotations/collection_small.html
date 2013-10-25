@@ -1,0 +1,9 @@
+<div class="collection_preview">
+<p><a href="{% url 'collections' collection_id=col.id %}">Collection: "{{ col }}"</a></p>
+{% for item in col.playlist.all %}
+<div class="smallitem"><a href="{% url 'item' item_id=item.id  %}">
+{% include "annotations/item_small.html" %}
+</a></div>
+{% endfor %}
+</div>
+<hr/>

@@ -1,0 +1,10 @@
+{% if item.itemtype == "img" %}<div class="annotateditem smallimage">
+    <img src="{{ item.payload }}" />
+  </div>{% elif item.itemtype == "txt" %}<div class="annotateditem smalltext">
+  <p>
+    <blockquote>{{ item.payload }}</blockquote>
+{% if item.src != "" %}</p><p><small>{{ item.src }}</small>{% endif %}</p>{% elif item.itemtype == "aud" %}<div class="annotateditem smallaudio">
+<p><audio src="{{ item.payload }}"></audio></p>{% elif item.itemtype == "vid" %}<div class="annotateditem smallyoutube">
+Video
+</div>
+{% endif %}

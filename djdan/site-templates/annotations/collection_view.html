@@ -1,0 +1,74 @@
+{% extends "annotations/base.html" %}
+{% load collectionhelpers %}
+{% block title %}
+{% if collection.tag %}
+"{{collection.tag }}" - Collection View
+{% else %}
+Collection View
+{% endif %}
+{% endblock %}
+
+{% block pagestyling %}
+body {
+    height: 100%;
+}
+#annotations {
+    width: 100%;
+}
+.annotation_text {
+	margin: 2em 1em;
+}
+#annotations div.container:nth-child(2n+1) {
+    background: #454545;
+}
+#previewcollectionitems {
+    position: relative;
+}
+
+#previewcollectionitems div {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;  
+}
+#collectiondisplay {
+  position: relative;
+  bottom: 0px;
+  width: 800px;
+  height: 200px;
+}
+#collectiondisplay .collection {
+  position: absolute;
+  text-align: center;
+  width: 4px;
+}
+.itemblob {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+}
+.itemstick {
+  position: absolute;
+  width: 2px;
+  height: 26px;
+  left: 1px;
+  background: #eee;
+}
+{% endblock %}
+
+{% block content %}
+<div id="previewcollectionitems">
+{% for item in items %}
+  {% include "annotations/item.html" %}
+{% endfor %}
+</div>
+<div id="collectiondisplay">
+  <div class="collection" style="{{collection.location|position_style_collection}}">
+    {% for item in items %}
+      <div class="itemstick" style="{{ forloop.counter0 | position_stick}}"></div>
+      <div class="itemblob" style="{{ forloop.counter0 | position_blob}}"><a href="/items/{{ item.id }}"></a></div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
