@@ -38,7 +38,7 @@ def login_view(request):
 
 def logout_view(request):
   logout(request)
-  redirect("login")  
+  redirect("login_view")  
 
 def index(request):
   template = loader.get_template("annotations/index.html")
