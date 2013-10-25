@@ -58,7 +58,7 @@ body {
 <div class="item">
 {% include "annotations/item.html" %}
 </div>
-<form method="post" action="{%%}">
+<form method="post" action="{% url 'item' item_id=item.id %}">
 {% csrf_token %}
 <p><input type="text" value="{{ item.payload }}" name="payload"/></p>
 <p><label for="itemtype">Type of resource</label><select id="itemtype" name="itemtype" selected="{{ item.itemtype }}">
