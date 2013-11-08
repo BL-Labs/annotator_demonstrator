@@ -24,10 +24,8 @@ function change_left(item_id) {
 	$('div#leftpane').html(data);
         leftitem_id = item_id;
         if (rightitem_id != 0) {
-            $.get("annnotation_query/" + session_id + "/" + leftitem_id + "/" + rightitem_id,  function( data ) {
-                if (data != {}) {
-                    $('textarea#annotation_text').html = data['annotation'];
-                };
+            $.get("/a/annotation_query/" + session_id + "/" + leftitem_id + "/" + rightitem_id,  function( data ) {
+                    $('textarea#annotation_text').val(data['annotation']);
             });
         };
     });
@@ -37,12 +35,10 @@ function change_right(item_id) {
     // get new HTML change rightpane update annotation
     $.get("/a/item_snippet/" + item_id, function (data) {
 	$('div#rightpane').html(data);
-        leftitem_id = item_id;
+        rightitem_id = item_id;
         if (leftitem_id != 0) {
-            $.get("annnotation_query/" + session_id + "/" + leftitem_id + "/" + rightitem_id,  function( data ) {
-                if (data != {}) {
-                    $('textarea#annotation_text').html = data['annotation'];
-                };
+            $.get("/a/annotation_query/" + session_id + "/" + leftitem_id + "/" + rightitem_id,  function( data ) {
+                    $('textarea#annotation_text').val(data['annotation']);
             });
         };
     });
@@ -53,7 +49,7 @@ function create_annotation() {
                       'rightitem':rightitem_id,
                       'leftitem_state': 0,
                       'rightitem_state': 0,
-                      'annotationtext': $('textarea#annotation_text').html,
+                      'annotationtext': $('textarea#annotation_text').val(),
                      };
     $.post("/a/annotations/{{ annotationsession.id }}", annotation_packet, function(data) { if (data) {console.log(data);}});
 };

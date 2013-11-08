@@ -236,38 +236,35 @@ def annotation(request, session_id):
     return HttpResponse(template.render(context))
   elif request.method == "POST":
     # A new annotation or an old one?
-    annotation_details = request.POST.get("annotation")
-    if annotation_details:
-      annotation_details = json.loads(annotation_details)
-      leftitem_id = annotation_details.get("leftitem")
-      rightitem_id = annotation_details.get("rightitem")
-      try:
-        leftitem = Item.objects.get(pk=leftitem_id)
-        rightitem = Item.objects.get(pk=rightitem_id)
-      except Item.DoesNotExist:
-        return HttpResponse(status=404)
-        
-      leftitem_state = annotation_details.get("leftitem_state")
-      rightitem = annotation_details.get("rightitem_state")
-      annotationtext = annotation_details.get("annotationtext", u"")
+    leftitem_id = request.POST.get("leftitem")
+    rightitem_id = request.POST.get("rightitem")
+    try:
+      leftitem = Item.objects.get(pk=leftitem_id)
+      rightitem = Item.objects.get(pk=rightitem_id)
+    except Item.DoesNotExist:
+      print("Hmmm it says these don't exist")
+      return HttpResponse(status=404)
       
-      try:
-        previous = Annotation.objects.get(leftitem = leftitem, rightitem = rightitem, session = annotationsession)
-        previous.annotation = annotationtext
-        previous.leftitem_state = leftitem_state
-        previous.rightitem_state = rightitem_state
-        previous.save()
-        return HttpResponse("{'annotation_id':'{0}'}".format(str(previous.id)), mimetype="application/json")
-      except Annotation.DoesNotExist:
-        return HttpResponse(status=404)
+    leftitem_state = request.POST.get("leftitem_state")
+    rightitem_state = request.POST.get("rightitem_state")
+    annotationtext = request.POST.get("annotationtext", u"")
+    
+    try:
+      previous = Annotation.objects.get(leftitem = leftitem, rightitem = rightitem, session = annotationsession)
+      previous.annotation = annotationtext
+      previous.leftitem_state = leftitem_state
+      previous.rightitem_state = rightitem_state
+      previous.save()
+      return HttpResponse("{{'annotation_id':'{0}'}}".format(str(previous.id)), mimetype="application/json")
+    except Annotation.DoesNotExist:
       new_anno = Annotation(leftitem = leftitem, 
-                            rightitem = rightitem, 
-                            session = annotationsession,
-                            leftitem_state = leftitem_state,
-                            rightitem_state = rightitem_state,
-                            creator = request.user)
+                          rightitem = rightitem, 
+                          session = annotationsession,
+                          leftitem_state = leftitem_state,
+                          rightitem_state = rightitem_state,
+                          creator = request.user)
       new_anno.save()
-      return HttpResponse("{'annotation_id':'{0}'}".format(str(new_anno.id)), mimetype="application/json")
+      return HttpResponse("{{'annotation_id':'{0}'}}".format(str(new_anno.id)), mimetype="application/json")
 
 def annotation_query(request, session_id, leftitem_id, rightitem_id):
   try:
@@ -279,7 +276,7 @@ def annotation_query(request, session_id, leftitem_id, rightitem_id):
                    'leftitem': leftitem.id,
                    'rightitem': rightitem_id,
                    'annotation': anno.annotation,
-                   'datestamp': anno.datestamp,
+#                   'datestamp': anno.datestamp,
                    'session_id': session_id,
                    'leftitem_state': anno.leftitem_state,
                    'rightitem_state': anno.rightitem_state,
