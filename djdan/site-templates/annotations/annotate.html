@@ -47,6 +47,16 @@ function change_right(item_id) {
         };
     });
 };
+
+function create_annotation() {
+    var annotation_packet = {'leftitem':leftitem_id,
+                      'rightitem':rightitem_id,
+                      'leftitem_state': 0,
+                      'rightitem_state': 0,
+                      'annotationtext': $('textarea#annotation_text').html,
+                     };
+    $.post("/a/annotations/{{ annotationsession.id }}", annotation_packet, function(data) { if (data) {console.log(data);}});
+};
 </script>
 {% endblock %}
 
@@ -54,17 +64,15 @@ function change_right(item_id) {
 <div id="container">
   <div id="leftpane"></div>
   <div id="annotation_pane">
+    <button id="submitannotation" onClick="create_annotation()" value="Annotate">Annotate</button>
     <textarea name="annotation_text" id="annotation_text"></textarea>
-    <button id="submitannotation" onClick="create_annotation()" value="Annotate"></button>
   </div>
   <div id="rightpane"></div>
 </div>
 <div id="doubleclear"></div>
 <div id="collections">
 {% for collection in collections %}
-<div class="collection">
 {% include "annotations/render_collection.html" %}
-</div>
 {% endfor %}
 </div>
 {% endblock %}

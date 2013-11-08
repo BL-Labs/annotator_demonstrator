@@ -48,21 +48,5 @@ $.ajaxSetup({
     }
 });
 
-function change_left(item_id) {
-    // get new HTML
-    // change leftpane
-    // update annotation
-    $.get("item/" + item_id, function (data) {
-	$('div#leftitem_pane').html(data);
-        leftitem_id = item_id;
-        if (rightitem_id != 0) {
-            $.get("annnotation_query/" + session_id + "/" + leftitem_id + "/" + rightitem_id,  function( data ) {
-                if (data != {}) {
-                    $('textarea#annotation_text').html = data['annotation'];
-                };
-            });
-        };
-    });
-};
 
 });

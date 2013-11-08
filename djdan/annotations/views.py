@@ -238,6 +238,7 @@ def annotation(request, session_id):
     # A new annotation or an old one?
     annotation_details = request.POST.get("annotation")
     if annotation_details:
+      annotation_details = json.loads(annotation_details)
       leftitem_id = annotation_details.get("leftitem")
       rightitem_id = annotation_details.get("rightitem")
       try:
