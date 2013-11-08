@@ -3,7 +3,7 @@
   </div>{% elif item.itemtype == "txt" %}<div class="annotateditem smalltext">
     <blockquote>{{ item.payload }}</blockquote>
 {% if item.src != "" %}<p><small>{{ item.src }}</small></p>{% endif %}</div>{% elif item.itemtype == "aud" %}<div class="annotateditem smallaudio">
-<p><audio src="{{ item.payload }}"></audio></p>{% elif item.itemtype == "vid" %}<div class="annotateditem smallyoutube">
+<p><audio src="{{ item.payload }}" controls></audio></p>{% elif item.itemtype == "vid" %}<div class="annotateditem smallyoutube">
 Video
 </div>
 {% endif %}
