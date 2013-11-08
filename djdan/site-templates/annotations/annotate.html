@@ -32,6 +32,21 @@ function change_left(item_id) {
         };
     });
 };
+
+function change_right(item_id) {
+    // get new HTML change rightpane update annotation
+    $.get("/a/item_snippet/" + item_id, function (data) {
+	$('div#rightpane').html(data);
+        leftitem_id = item_id;
+        if (leftitem_id != 0) {
+            $.get("annnotation_query/" + session_id + "/" + leftitem_id + "/" + rightitem_id,  function( data ) {
+                if (data != {}) {
+                    $('textarea#annotation_text').html = data['annotation'];
+                };
+            });
+        };
+    });
+};
 </script>
 {% endblock %}
 
