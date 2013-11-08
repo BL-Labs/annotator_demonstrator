@@ -6,6 +6,6 @@
     <blockquote>{{ item.payload }}</blockquote>
 {% if item.src != "" %}</p><p><small>{{ item.src }}</small>{% endif %}</p>{% elif item.itemtype == "aud" %}<div class="annotateditem audio">
 <p><audio src="{{ item.payload }}" controls></audio></p>{% elif item.itemtype == "vid" %}<div class="annotateditem youtube">
-<iframe width="340" height="190" src="//www.youtube.com/embed/{{ item.payload | youtube_helper }}" frameborder="0" allowfullscreen></iframe>
+<iframe width="400" height="220" src="//www.youtube.com/embed/{{ item.payload | youtube_helper }}" frameborder="0" allowfullscreen></iframe>
 </div>
 {% endif %}
