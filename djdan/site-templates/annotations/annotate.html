@@ -95,8 +95,12 @@ function create_annotation() {
 </div>
 <div id="doubleclear"></div>
 <div id="collections">
+<table><tr>
 {% for collection in collections %}
+<td style="width:200px; vertical-align: top;">
 {% include "annotations/render_collection.html" %}
+</td>
 {% endfor %}
+</tr></table>
 </div>
 {% endblock %}
