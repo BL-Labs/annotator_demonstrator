@@ -1,7 +1,7 @@
 {% if item.itemtype == "img" %}<div class="annotateditem smallimage">
     <img src="{{ item.payload }}" />
   </div>{% elif item.itemtype == "txt" %}<div class="annotateditem smalltext">
-    <blockquote>{{ item.payload }}</blockquote>
+    <blockquote>{{ item.payload|truncatechars:30 }}</blockquote>
 {% if item.src != "" %}<p><small>{{ item.src }}</small></p>{% endif %}</div>{% elif item.itemtype == "aud" %}<div class="annotateditem smallaudio">
 <p><audio src="{{ item.payload }}" controls></audio></p></div>{% elif item.itemtype == "vid" %}<div class="annotateditem smallyoutube">
 Video
