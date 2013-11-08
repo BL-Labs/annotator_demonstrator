@@ -1,0 +1,55 @@
+{% extends "annotations/base.html" %}
+{% load collectionhelpers %}
+{% block title %}
+Annotation Session {{ session_id }}
+{% endblock %}
+
+{% block pagestyling %}
+body {
+    height: 100%;
+}
+
+{% endblock %}
+
+{% block scripting %}
+<script>
+var leftitem_id = 0;
+var rightitem_id = 0;
+var session_id = {{ annotationsession.id }};
+var annotation_id = 0;
+
+function change_left(item_id) {
+    // get new HTML change leftpane update annotation
+    $.get("/a/item_snippet/" + item_id, function (data) {
+	$('div#leftpane').html(data);
+        leftitem_id = item_id;
+        if (rightitem_id != 0) {
+            $.get("annnotation_query/" + session_id + "/" + leftitem_id + "/" + rightitem_id,  function( data ) {
+                if (data != {}) {
+                    $('textarea#annotation_text').html = data['annotation'];
+                };
+            });
+        };
+    });
+};
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="container">
+  <div id="leftpane"></div>
+  <div id="annotation_pane">
+    <textarea name="annotation_text" id="annotation_text"></textarea>
+    <button id="submitannotation" onClick="create_annotation()" value="Annotate"></button>
+  </div>
+  <div id="rightpane"></div>
+</div>
+<div id="doubleclear"></div>
+<div id="collections">
+{% for collection in collections %}
+<div class="collection">
+{% include "annotations/render_collection.html" %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

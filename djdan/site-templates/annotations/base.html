@@ -7,7 +7,9 @@
 	<title>{% block title %}DJ annotator{% endblock %}</title>
 
 	<script src="{% static "js/jquery.min.js" %}"></script>
+        <script src="{% static "js/annotation.js" %}"></script>
 
+        {% block scripting %}{% endblock %}
 	<link rel="stylesheet" href="{% static "css/base.css" %}" />
 	<link rel="stylesheet" href="{% static "css/skeleton.css" %}" />
 	<link rel="stylesheet" href="{% static "css/layout.css" %}" />

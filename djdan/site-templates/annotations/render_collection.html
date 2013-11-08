@@ -1,0 +1,9 @@
+{% if collection %}
+<div class="collection">
+<ul>
+{% for item in collection.playlist.all %}
+<li><button onClick="change_left({{ item.id }})">&lt;&lt;</button> '{{ item.tag }}' <button onClick="change_right({{ item.id }})">&gt;&gt;</button>
+{% endfor %}
+</ul>
+</div>
+{% endif %}

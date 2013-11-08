@@ -11,6 +11,8 @@ from annotations.models import Annotation, AnnotationSession, Collection, Item, 
 
 from django.contrib.auth import authenticate, login, logout
 
+import json
+
 def login_view(request):
   if request.method == "POST":
     username = request.POST['username']
@@ -60,6 +62,7 @@ def sessionlist(request):
     description = request.POST['description']
     newsession = AnnotationSession.objects.create(creator=request.user, title=title, description=description)
     return redirect('session', session_id=newsession.id)
+    
 
 def session(request, session_id):
   try:
@@ -94,12 +97,26 @@ def session(request, session_id):
       rightitemobj = Item.objects.get(pk=int(rightitem))
       newannotation = Annotation.objects.create(leftitem=leftitemobj, rightitem=rightitemobj, creator=request.user, annotation=annotation, session=annotationsession)
       return redirect('annotation', annotation_id=newannotation.id)
+  elif request.method == "DELETE":
+    if not request.user.is_authenticated():
+      return redirect('login')
+    annotationsession.delete()
+    return HttpResponse("", status=204)
 
+def item_snippet(request, item_id):
+  try:
+    item = Item.objects.get(pk=item_id)
+  except Item.DoesNotExist:
+    return HttpResponse(status=404)
+  template = loader.get_template("annotations/item.html")
+  context = RequestContext( request, {'item': item})
+  return HttpResponse(template.render(context))
+  
 def collection(request, collection_id):
   try:
     col = Collection.objects.get(pk=collection_id)
   except Collection.DoesNotExist:
-    raise Http404
+    return HttpResponse(status=404)
   template = loader.get_template("annotations/collection.html")
   items = CollectionEntry.objects.filter(collection=col)
   unassigned = Item.objects.filter(creator=request.user)
@@ -173,7 +190,7 @@ def item(request, item_id):
   try:
     item = Item.objects.get(pk=item_id)
   except Item.DoesNotExist:
-    raise Http404
+    return HttpResponse(status=404)
   if request.method == "GET":
     template = loader.get_template("annotations/itemview.html")
     allcollections = Collection.objects.filter(creator=request.user)
@@ -198,8 +215,85 @@ def item(request, item_id):
     updateitem.save()
     return redirect("item", item_id=updateitem.id)
 
-def annotationlist(request):
-  pass
 
-def annotation(request, annotation_id):
+def annotation(request, session_id):
+  # GET => gather collections and render UI
+  # POST => get annotation information and create new/update annotation.
+  if not request.user.is_authenticated():
+    return redirect('login')
+  collections = Collection.objects.filter(creator=request.user).all()
+  try:
+    annotationsession = AnnotationSession.objects.get(pk=session_id)
+    session_annotations = annotationsession.annotations.all().order_by("datestamp")
+  except AnnotationSession.DoesNotExist:
+    return HttpResponse(status=404)
+
+  if request.method == "GET":
+    context = RequestContext( request, {'collections': collections,
+                                        'annotationsession': annotationsession,
+                                        'annotations': session_annotations })
+    template = loader.get_template("annotations/annotate.html")
+    return HttpResponse(template.render(context))
+  elif request.method == "POST":
+    # A new annotation or an old one?
+    annotation_details = request.POST.get("annotation")
+    if annotation_details:
+      leftitem_id = annotation_details.get("leftitem")
+      rightitem_id = annotation_details.get("rightitem")
+      try:
+        leftitem = Item.objects.get(pk=leftitem_id)
+        rightitem = Item.objects.get(pk=rightitem_id)
+      except Item.DoesNotExist:
+        return HttpResponse(status=404)
+        
+      leftitem_state = annotation_details.get("leftitem_state")
+      rightitem = annotation_details.get("rightitem_state")
+      annotationtext = annotation_details.get("annotationtext", u"")
+      
+      try:
+        previous = Annotation.objects.get(leftitem = leftitem, rightitem = rightitem, session = annotationsession)
+        previous.annotation = annotationtext
+        previous.leftitem_state = leftitem_state
+        previous.rightitem_state = rightitem_state
+        previous.save()
+        return HttpResponse("{'annotation_id':'{0}'}".format(str(previous.id)), mimetype="application/json")
+      except Annotation.DoesNotExist:
+        return HttpResponse(status=404)
+      new_anno = Annotation(leftitem = leftitem, 
+                            rightitem = rightitem, 
+                            session = annotationsession,
+                            leftitem_state = leftitem_state,
+                            rightitem_state = rightitem_state,
+                            creator = request.user)
+      new_anno.save()
+      return HttpResponse("{'annotation_id':'{0}'}".format(str(new_anno.id)), mimetype="application/json")
+
+def annotation_query(request, session_id, leftitem_id, rightitem_id):
+  try:
+    annotationsession = AnnotationSession.objects.get(pk=session_id)
+    leftitem = Item.objects.get(pk=leftitem_id)
+    rightitem = Item.objects.get(pk=rightitem_id)
+    anno = Annotation.objects.get(leftitem = leftitem, rightitem = rightitem, session = annotationsession)
+    annotation_packet = { 'annotation_id': anno.id,
+                   'leftitem': leftitem.id,
+                   'rightitem': rightitem_id,
+                   'annotation': anno.annotation,
+                   'datestamp': anno.datestamp,
+                   'session_id': session_id,
+                   'leftitem_state': anno.leftitem_state,
+                   'rightitem_state': anno.rightitem_state,
+                  }
+    data = json.dumps(annotation_packet)
+    return HttpResponse(data, mimetype="application/json")
+  except AnnotationSession.DoesNotExist:
+    # No such session
+    return HttpResponse("{}", mimetype="application/json")
+  except Annotation.DoesNotExist:
+    # No such annotation in this session 
+    return HttpResponse("{}", mimetype="application/json")
+  except Item.DoesNotExist:
+    # No such item
+    return HttpResponse("{}", mimetype="application/json")
+  
+def annotationlist(request):
   pass
