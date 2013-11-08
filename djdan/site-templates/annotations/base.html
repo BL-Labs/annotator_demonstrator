@@ -43,7 +43,7 @@
 <body>
 {% if user.is_authenticated %}
 <div id="header">
-Welcome <strong>{{ user }}</strong> - Your <a href="{% url 'collectionlist' %}">collections</a>, <a href="{% url 'sessionlist' %}">sessions</a>, and <a href="{% url 'itemlist' %}">items</a> ---- click here to <a href="{% url 'logout'%}">logout</a>
+Welcome <strong>{{ user }}</strong> - Your <a href="{% url 'collectionlist' %}">collections</a>, <a href="{% url 'sessionlist' %}">sessions</a>, and <a href="{% url 'itemlist' %}">items</a> --{% if annotationsession %} <a href="{% url 'session' annotationsession.id %}">Playback history</a> {% endif %}-- click here to <a href="{% url 'logout'%}">logout</a>
 </div>
 {% else %}
 <div id="header">
