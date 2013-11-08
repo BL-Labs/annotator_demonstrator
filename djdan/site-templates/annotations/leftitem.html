@@ -1,0 +1,3 @@
+{% if annotation.leftitem.itemtype == "img" %}<div class="annotateditem smallimage"><img src="{{ annotation.leftitem.payload }}" /></div>{% elif annotation.leftitem.itemtype == "txt" %}
+<div class="annotateditem smalltext"><blockquote>{{ annotation.leftitem.payload }}</blockquote>{% if annotation.leftitem.src != "" %}<p><small>{{ annotation.leftitem.src }}</small></p>{% endif %}</div>{% elif annotation.leftitem.itemtype == "aud" %}<div class="annotateditem smallaudio"><p><audio src="{{ annotation.leftitem.payload }}"></audio></p></div>{% elif annotation.leftitem.itemtype == "vid" %}
+<div class="annotateditem smallyoutube">[Youtube Video]</div>{% endif %}

@@ -8,7 +8,34 @@ Annotation Session {{ session_id }}
 body {
     height: 100%;
 }
-
+#container {
+	width: 100%;
+	height: 500px;
+        margin: 0 auto;
+}
+#leftpane {
+	width: 40%;
+	float: left;
+}
+#rightpane {
+	width: 40%;
+	float: right;
+}
+#annotation_pane {
+	width: 19%;
+	float: left;
+	text-align: center;
+}
+#doubleclear {
+	clear: both;
+}
+#collections {
+	
+}
+.collection {
+	width: 20em;
+	float: left;
+}
 {% endblock %}
 
 {% block scripting %}
@@ -57,13 +84,14 @@ function create_annotation() {
 {% endblock %}
 
 {% block content %}
+<h2>{% if annotationsession.title %}{{ annotationsession.title }}{% else %}Session ID: {{ annotationsession.id }}{% endif %}</h2>
 <div id="container">
-  <div id="leftpane"></div>
+  <div id="leftpane">&nbsp;</div>
   <div id="annotation_pane">
     <button id="submitannotation" onClick="create_annotation()" value="Annotate">Annotate</button>
     <textarea name="annotation_text" id="annotation_text"></textarea>
   </div>
-  <div id="rightpane"></div>
+  <div id="rightpane">&nbsp;</div>
 </div>
 <div id="doubleclear"></div>
 <div id="collections">

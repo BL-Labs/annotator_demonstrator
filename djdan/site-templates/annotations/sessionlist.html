@@ -8,7 +8,7 @@
 <ul>
 {% for session in session_list %}
   <li><a href="session/{{session.id}}"><span class="session_title">{% if session.title %}{{session.title}}{% else %}Untitled #{{ session.id }}{% endif %}</span> created by {{ session.creator }}.{% if session.description %}
-       <div class="session_description">{{ session.description }}</div>{% endif %}</a></li>
+       <div class="session_description">{{ session.description }}</div>{% endif %}</a> - <a href="{% url "annotation" session.id %}">Continue this session</a></li>
 {% endfor %}
 </ul>
 {% else %}
