@@ -3,7 +3,7 @@
 <small>{{ collection.tag }}</small>
 <table>
 {% for item in collection.playlist.all %}
-<tr><td><button onClick="change_left({{ item.id }})">&lt;&lt;</button></td><td><small>{{ item.tag }}<small></td><td><button onClick="change_right({{ item.id }})">&gt;&gt;</button></td></tr>
+<tr><td><button onClick="change_left({{ item.id }})">&lt;&lt;</button> </td><td> <small>{{ item.tag }}<small> </td><td> <button onClick="change_right({{ item.id }})">&gt;&gt;</button></td></tr>
 {% endfor %}
 </table>
 </div>
