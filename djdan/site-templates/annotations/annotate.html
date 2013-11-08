@@ -85,7 +85,6 @@ function create_annotation() {
 
 {% block content %}
 <h3>{% if annotationsession.title %}{{ annotationsession.title }}{% else %}Session ID: {{ annotationsession.id }}{% endif %}</h3>
-<small><a href="{% url 'session' annotationsession.id %}">Playback history</a></small>
 <div id="container">
   <div id="leftpane">&nbsp;</div>
   <div id="annotation_pane">
