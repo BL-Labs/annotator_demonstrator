@@ -185,6 +185,19 @@ def itemlist(request):
         'collections': collections,
               })
     return HttpResponse(template.render(context))
+  if request.method == "POST":
+    if not request.user.is_authenticated():
+      return redirect('login')
+    tag = request.POST.get('tag',"")
+    payload = request.POST.get('payload',"")
+    itemtype = request.POST.get('itemtype',"img")
+    src = request.POST.get('src',"")
+    newitem = Item.objects.create(tag = tag, 
+                      itemtype=itemtype,
+                      payload=payload,
+                      src=src)
+    newitem.save()
+    return redirect("item", item_id=updateitem.id)
 
 def item(request, item_id):
   try:
