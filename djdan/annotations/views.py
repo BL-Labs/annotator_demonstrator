@@ -195,7 +195,8 @@ def itemlist(request):
     newitem = Item.objects.create(tag = tag, 
                       itemtype=itemtype,
                       payload=payload,
-                      src=src)
+                      src=src,
+                      creator=request.user)
     newitem.save()
     return redirect("item", item_id=updateitem.id)
 
