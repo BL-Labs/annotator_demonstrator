@@ -198,7 +198,7 @@ def itemlist(request):
                       src=src,
                       creator=request.user)
     newitem.save()
-    return redirect("item", item_id=updateitem.id)
+    return redirect("item", item_id=newitem.id)
 
 def item(request, item_id):
   try:
