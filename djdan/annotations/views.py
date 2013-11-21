@@ -50,7 +50,7 @@ def index(request):
 def sessionlist(request):
   if request.method == "GET":
     template = loader.get_template("annotations/sessionlist.html")
-    session_list = AnnotationSession.objects.all()
+    session_list = AnnotationSession.objects.filter(creator=request.user)
     context = RequestContext(request, {
       'session_list': session_list,
     })
